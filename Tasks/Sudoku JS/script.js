@@ -1,0 +1,3 @@
+const game = new Sudoku
+
+
