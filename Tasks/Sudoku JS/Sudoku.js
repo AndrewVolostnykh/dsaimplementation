@@ -7,8 +7,9 @@ class Sudoku {
             for(let x = 0; x < 9; x++){
                 this.body.push({
                     id: idCounter,
-                    x: x,
-                    y: y,
+                    x,
+                    y,
+                    number: 0,
                     s: parseInt(y / 3) * 3 + parseInt(x / 3) // taking segment from 3 * 3 field
                 });
                 idCounter++;
@@ -22,6 +23,8 @@ class Sudoku {
         for(let i = 0; i < 9; i++){
             row.push(this.body[9 * n + i]) // every next element in row
         }
+
+        return row;
     }
 
     getColumn(n) {
@@ -30,10 +33,69 @@ class Sudoku {
         for(let i = 0; i < 9; i++){
             row.push(this.body[i * 9 + n]) // same ^ but for columns
         }
+
+        return column;
     }
 
     getSegment(n) {
+        const segment = []
 
+        const x = n % 3
+        const y = parseInt( n / 3)
+        for(let dy = 0; dy < 3; dy++){
+            for(let dx = 0; dx < 3; dx++){
+                segment.push(this.body[
+                    y * 27 + dy * 9 + x * 3 + dx
+                ])
+            }
+        }
+
+        return segment;
+    }
+
+    keyDownHandler(event, cell){
+        console.log("keydpwnHandler", event, cell)
+    }
+
+    focusHandler(event, cell){
+        console.log("focusHandler", event, cell)
+    }
+    
+    blurHandler(event, cell){
+        console.log("blurhandler", event, cell)
+    }
+
+    getHTML(size){
+        for(const item of this.body){
+            const inputElement = document.createElement('input')
+            inputElement.classList.add("sudoku-cell")
+            inputElement.setAttribute("type", "text")
+
+            inputElement.addEventListener('keydown', event => this.keyDownHandler(event, item))
+            inputElement.addEventListener('focus', event => this.focusHandler(event, item))
+            inputElement.addEventListener('blur', event => this.blurHandler(event, item))
+
+            item.element = inputElement
+        }
+
+        const rootElement = document.createElement('div')
+        rootElement.classList.add("sudoku-game")
+        rootElement.style.width = `${size}px`
+        rootElement.style.height = `${size}px`
+        rootElement.style["font-size"] = `${size / 20}px`
+
+        for(let s = 0; s < 9; s++){
+            const segmentElement = document.createElement('div')
+            segmentElement.classList.add('sudoku-segment')
+
+            for(const cell of this.getSegment(s)){
+                segmentElement.append(cell.element)
+            }
+
+            rootElement.append(segmentElement)
+        }
+
+        return rootElement
     }
 
 }
