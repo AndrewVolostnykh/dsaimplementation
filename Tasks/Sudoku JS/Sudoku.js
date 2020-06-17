@@ -1,5 +1,11 @@
 class Sudoku {
-    constructor () {
+    constructor (initString = '000000000000000000000000000000000000000000000000000000000000000000000000000000000') {
+        const startValues = initString
+        .split('')
+        .filter(x => "0123456789".includes(x))
+        .map(x => Number(x))
+        console.log(startValues)
+
         this.body = [];
 
         let idCounter = 1;
@@ -9,7 +15,7 @@ class Sudoku {
                     id: idCounter,
                     x,
                     y,
-                    number: 0,
+                    number: startValues[idCounter - 1],
                     selected: false,
                     supported: false, 
                     s: parseInt(y / 3) * 3 + parseInt(x / 3) // taking segment from 3 * 3 field
@@ -126,6 +132,8 @@ class Sudoku {
 
             rootElement.append(segmentElement)
         }
+
+        this.viewUpdate()
 
         return rootElement
     }
