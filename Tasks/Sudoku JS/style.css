@@ -1,0 +1,51 @@
+.sudoku-game {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.sudoku-segment {
+    border: 1px solid gray;
+    margin: 1px;
+    padding: 1px;
+    width: calc(100%/3 - 6px);
+    height: calc(100%/3 - 6px);
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.sudoku-cell {
+    text-align: center;
+    font-size: 100%;
+    width: calc(100%/3 - 2px);
+    height: calc(100%/3 - 2px);
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 1px;
+    background: #d5fbff;
+}
+
+.sudoku-cell.start-cell {
+    color: gray;
+}
+
+.sudoku-cell.supported-cell {
+    background: #b7fecd;
+}
+
+.sudoku-cell.selected-cell {
+    background: #84f0fc;
+}
+
+.sudoku-cell.important-cell {
+    color: blue;
+}
+
+.sudoku-cell.start-cell.error {
+    color: #ed0a0a;
+}
+
+
+.sudoku-cell.error {
+    color: red;
+}

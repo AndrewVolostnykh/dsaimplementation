@@ -1,0 +1,1 @@
+Variation of HashMap in JS by closed address algorithm
