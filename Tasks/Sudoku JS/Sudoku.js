@@ -10,6 +10,8 @@ class Sudoku {
                     x,
                     y,
                     number: 0,
+                    selected: false,
+                    supported: false, 
                     s: parseInt(y / 3) * 3 + parseInt(x / 3) // taking segment from 3 * 3 field
                 });
                 idCounter++;
@@ -31,7 +33,7 @@ class Sudoku {
         const column = [];
 
         for(let i = 0; i < 9; i++){
-            row.push(this.body[i * 9 + n]) // same ^ but for columns
+            column.push(this.body[i * 9 + n]) // same ^ but for columns
         }
 
         return column;
@@ -54,15 +56,45 @@ class Sudoku {
     }
 
     keyDownHandler(event, cell){
-        console.log("keydpwnHandler", event, cell)
+        if("123456789".includes(event.key)){
+            cell.number = parseInt(event.key)
+
+        }
+
+
+        event.preventDefault()
+        this.viewUpdate()
     }
 
     focusHandler(event, cell){
         console.log("focusHandler", event, cell)
+        cell.selected = true
+
+        for(const item of this.getRow(cell.y)){
+            item.supported = true
+        }
+
+        for(const item of this.getColumn(cell.x)){
+            item.supported = true
+        }
+
+        this.viewUpdate()
     }
-    
+
     blurHandler(event, cell){
         console.log("blurhandler", event, cell)
+        console.log("focusHandler", event, cell)
+        cell.selected = false
+
+        for(const item of this.getRow(cell.y)){
+            item.supported = false
+        }
+
+        for(const item of this.getColumn(cell.x)){
+            item.supported = false
+        }
+
+        this.viewUpdate()
     }
 
     getHTML(size){
@@ -96,6 +128,21 @@ class Sudoku {
         }
 
         return rootElement
+    }
+
+    viewUpdate() {
+        for(const cell of this.body){
+            cell.element.classList.remove("supported-cell", "selected-cell")
+            cell.element.value = cell.number ? cell.number : ''
+
+            if(cell.supported){
+                cell.element.classList.add("supported-cell")
+            }
+
+            if(cell.selected){
+                cell.element.classList.add("selected-cell")
+            }
+        }
     }
 
 }
