@@ -1,3 +1,4 @@
+// TODO: This hash map cand work with collisions. U have to add list when collision happens for index
 class HashMap {
 	constructor(size = 16)
 	{
@@ -19,7 +20,7 @@ class HashMap {
 		var index = this.getIndex(this.getHash(key))
 		this.basicArray[index] = value // TODO: At this place, if we touch collision, in open addressing all collisions have to be saved in list
 		
-1		this.sizeCounter++
+		this.sizeCounter++
 	}
 	
 	get(key){
@@ -43,7 +44,7 @@ class HashMap {
 	getHash(key){ // this methos helps to view object as int value
 		
 		var hash = 0;
-		var tempString = JSON.stringify(value)
+		var tempString = JSON.stringify(key)
 		for (var i = 0; i < tempString.length; i++){
 			var character = tempString.charCodeAt(i)
 			hash = ((hash<<5)-hash)+character
@@ -57,4 +58,6 @@ class HashMap {
 		return hash % this.basicArray.length
 	}
 }
+
+const hashMap = new HashMap(16)
 
